@@ -4,7 +4,7 @@ A remark plugin that adds text-to-speech functionality to ReactMarkdown using th
 
 ## Demo
 
-Try it live: [https://yourusername.github.io/remark-say-tts/](https://yourusername.github.io/remark-say-tts/)
+Try it live: [https://svylabs.github.io/remark-say-tts/](https://svylabs.github.io/remark-say-tts/)
 
 ## Installation
 
