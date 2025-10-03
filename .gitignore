@@ -1,5 +1,6 @@
 node_modules
-dist
+example/node_modules
+example/dist
 .vite
 *.log
 .DS_Store

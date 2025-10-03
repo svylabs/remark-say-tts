@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkDirective from 'remark-directive';
-import remarkSayTts from '../../plugin/src/index.js';
+import remarkSayTts from '../../src/index.js';
 import { SayComponent } from './SayComponent';
 import './App.css';
 
