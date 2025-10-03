@@ -20,9 +20,11 @@
   ],
   "author": "",
   "license": "MIT",
-  "peerDependencies": {
-    "remark-directive": "^4.0.0",
+  "dependencies": {
     "unist-util-visit": "^5.0.0"
+  },
+  "peerDependencies": {
+    "remark-directive": "^4.0.0"
   },
   "files": [
     "src"
