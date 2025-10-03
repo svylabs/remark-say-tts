@@ -23,6 +23,15 @@ This is a demonstration of the **remark-say-tts** plugin for ReactMarkdown.
 - Normal: :say[Hello World]{rate="1.0"}
 - Fast: :say[Hello World]{rate="1.5"}
 
+## Advanced: Nested Formatting
+
+These work with bold, italic, inline code, and other markdown formatting:
+
+- With **bold**: :say[**Hello** World]{lang="en-US"}
+- With *italic*: :say[*Ciao* bella]{lang="it-IT"}
+- Mixed: :say[**Bon** *jour*]{lang="fr-FR"}
+- With code: :say[\`Hola\`]{lang="es-ES"}
+
 ## In Sentences
 
 You can use it inline like this: "Hello, my name is :say[Marie]{lang="fr-FR"}" or at the end of a sentence :say[Nice to meet you]{lang="en-GB"}.

@@ -1,5 +1,19 @@
 import { visit } from 'unist-util-visit';
 
+function extractText(node) {
+  if (!node) return '';
+  
+  if (node.children && Array.isArray(node.children)) {
+    return node.children.map(extractText).join('');
+  }
+  
+  if (node.value && typeof node.value === 'string') {
+    return node.value;
+  }
+  
+  return '';
+}
+
 export default function remarkSayTts() {
   return (tree) => {
     visit(tree, (node) => {
@@ -12,9 +26,7 @@ export default function remarkSayTts() {
         const data = node.data || (node.data = {});
         const attributes = node.attributes || {};
         
-        const text = node.children && node.children.length > 0 
-          ? node.children.map(child => child.value || '').join('')
-          : '';
+        const text = extractText(node);
 
         data.hName = 'span';
         data.hProperties = {
