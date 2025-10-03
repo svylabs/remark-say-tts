@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkDirective from 'remark-directive';
-import remarkSayTts from '../../src/index.js';
-import { SayComponent } from './SayComponent';
+import remarkSayTts, { SayComponent } from '../../src/index.js';
 import './App.css';
 
 const defaultMarkdown = `# Text-to-Speech Markdown Demo

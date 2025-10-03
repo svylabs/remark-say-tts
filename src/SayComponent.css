@@ -1,0 +1,41 @@
+.say-tts-wrapper {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background-color: #f0f8ff;
+  padding: 2px 6px;
+  border-radius: 4px;
+  border: 1px solid #b0d4f1;
+}
+
+.say-tts-text {
+  font-weight: 500;
+  color: #1a5490;
+}
+
+.say-tts-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  font-size: 16px;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.1s ease;
+}
+
+.say-tts-button:hover {
+  transform: scale(1.2);
+}
+
+.say-tts-button:active {
+  transform: scale(0.95);
+}
+
+.say-tts-button:focus {
+  outline: 2px solid #4a90e2;
+  outline-offset: 2px;
+  border-radius: 2px;
+}
