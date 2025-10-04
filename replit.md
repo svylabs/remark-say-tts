@@ -7,17 +7,24 @@ An npm library that provides a remark plugin for adding text-to-speech functiona
 This is an npm library with an example demo application:
 
 ### Library (root)
-- `/src/index.js` - The remark plugin that parses `:say` directives
-- `package.json` - npm library configuration for publication
+- `/src/index.js` - The core remark plugin (framework-agnostic, no React dependency)
+- `/src/react.js` - React component entry point (exports SayComponent)
+- `/src/SayComponent.jsx` - React component that handles TTS playback
+- `/src/SayComponent.css` - Styling for TTS elements
+- `package.json` - npm library configuration with dual-entry exports
 
 ### Example App (example/)
 - `/example/src/App.jsx` - Demo application with live markdown editor
-- `/example/src/SayComponent.jsx` - React component that handles TTS playback
-- `/example/src/SayComponent.css` - Styling for TTS elements
 - `/example/index.html` - HTML entry point
 - `/example/src/main.jsx` - React app entry point
 - `/example/vite.config.js` - Vite configuration with GitHub Pages base path
 - `/example/package.json` - Example app dependencies
+
+## Architecture
+The package uses a **dual-entry point architecture**:
+- Main entry (`remark-say-tts`): Framework-agnostic core plugin, no React required
+- React entry (`remark-say-tts/react`): React component for React users
+- React is marked as an optional peer dependency, preventing warnings for non-React users
 
 ## Usage
 In markdown, use the directive:
