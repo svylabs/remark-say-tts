@@ -40,5 +40,3 @@ export default function remarkSayTts() {
     });
   };
 }
-
-export { SayComponent } from './SayComponent.jsx';

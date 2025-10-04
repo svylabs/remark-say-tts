@@ -14,14 +14,16 @@ npm install remark-say-tts remark-directive
 
 ## Usage
 
-Add the plugin to your ReactMarkdown setup:
+### With React
+
+The library includes a ready-to-use `SayComponent` for React users:
 
 ```jsx
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkDirective from 'remark-directive';
 import remarkSayTts from 'remark-say-tts';
-import { SayComponent } from './SayComponent';
+import { SayComponent } from 'remark-say-tts/react';
 
 function App() {
   const markdown = `
@@ -46,46 +48,84 @@ Check out this French word: :say[Bonjour]{lang="fr-FR" rate="1.05"}
 }
 ```
 
-### React Component
+The bundled component includes styling and all functionality.
 
-Create a `SayComponent.jsx` file (or copy from the [example](./example/src/SayComponent.jsx)):
+### Without React (Framework-Agnostic)
+
+The plugin itself is framework-agnostic. You can use it with any framework or vanilla JavaScript:
+
+```js
+import remarkDirective from 'remark-directive';
+import remarkSayTts from 'remark-say-tts';
+import { unified } from 'unified';
+import remarkParse from 'remark-parse';
+import remarkRehype from 'remark-rehype';
+import rehypeStringify from 'rehype-stringify';
+
+const file = await unified()
+  .use(remarkParse)
+  .use(remarkDirective)
+  .use(remarkSayTts)
+  .use(remarkRehype)
+  .use(rehypeStringify)
+  .process(':say[Hello]{lang="en-US"}');
+
+console.log(String(file));
+// Output: <span class="say-tts" data-text="Hello" data-lang="en-US" data-rate="1.0" data-pitch="1.0">Hello</span>
+```
+
+Then implement your own click handler in your preferred framework (Vue, Svelte, vanilla JS, etc.).
+
+### Using a Custom Component
+
+If you want to customize the appearance or behavior, you can create your own component:
 
 ```jsx
 import React from 'react';
+import ReactMarkdown from 'react-markdown';
+import remarkDirective from 'remark-directive';
+import remarkSayTts from 'remark-say-tts';
 
-export function SayComponent({ node, children, ...props }) {
+function CustomSayComponent({ node, children, ...props }) {
   const text = props['data-text'] || '';
   const lang = props['data-lang'] || 'en-US';
   const rate = parseFloat(props['data-rate'] || '1.0');
   const pitch = parseFloat(props['data-pitch'] || '1.0');
 
-  const handleSpeak = (e) => {
-    e.preventDefault();
-    
-    if (!('speechSynthesis' in window)) {
-      alert('Sorry, your browser does not support text-to-speech!');
-      return;
+  const handleSpeak = () => {
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = lang;
+      utterance.rate = rate;
+      utterance.pitch = pitch;
+      window.speechSynthesis.speak(utterance);
     }
-
-    window.speechSynthesis.cancel();
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = lang;
-    utterance.rate = rate;
-    utterance.pitch = pitch;
-    window.speechSynthesis.speak(utterance);
   };
 
   return (
-    <span className="say-tts-wrapper">
-      <span className="say-tts-text">{children}</span>
-      <button 
-        className="say-tts-button" 
-        onClick={handleSpeak}
-        aria-label={`Play pronunciation of ${text}`}
-      >
-        🔊
-      </button>
+    <span style={{ backgroundColor: 'yellow' }}>
+      {children}
+      <button onClick={handleSpeak}>▶️</button>
     </span>
+  );
+}
+
+function App() {
+  return (
+    <ReactMarkdown
+      remarkPlugins={[remarkDirective, remarkSayTts]}
+      components={{
+        span: ({ node, className, ...props }) => {
+          if (className === 'say-tts') {
+            return <CustomSayComponent {...props} />;
+          }
+          return <span className={className} {...props} />;
+        }
+      }}
+    >
+      {`Your markdown with :say[text]{lang="en-US"}`}
+    </ReactMarkdown>
   );
 }
 ```
