@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './SayComponent.css';
 
 export function SayComponent({ node, children, ...props }) {
@@ -6,6 +6,8 @@ export function SayComponent({ node, children, ...props }) {
   const lang = props['data-lang'] || 'en-US';
   const rate = parseFloat(props['data-rate'] || '1.0');
   const pitch = parseFloat(props['data-pitch'] || '1.0');
+  
+  const [isSlowMode, setIsSlowMode] = useState(false);
 
   const handleSpeak = (e) => {
     e.preventDefault();
@@ -19,10 +21,12 @@ export function SayComponent({ node, children, ...props }) {
 
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = lang;
-    utterance.rate = rate;
+    utterance.rate = isSlowMode ? rate * 0.6 : rate;
     utterance.pitch = pitch;
 
     window.speechSynthesis.speak(utterance);
+    
+    setIsSlowMode(!isSlowMode);
   };
 
   return (
@@ -32,7 +36,7 @@ export function SayComponent({ node, children, ...props }) {
         className="say-tts-button" 
         onClick={handleSpeak}
         aria-label={`Play pronunciation of ${text}`}
-        title="Click to hear pronunciation"
+        title={isSlowMode ? "Click to hear at normal speed" : "Click to hear at slow speed"}
       >
         🔊
       </button>
