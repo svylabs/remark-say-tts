@@ -19,14 +19,30 @@ export function SayComponent({ node, children, ...props }) {
 
     window.speechSynthesis.cancel();
 
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = lang;
-    utterance.rate = isSlowMode ? rate * 0.6 : rate;
-    utterance.pitch = pitch;
+    const speakWithVoice = () => {
+      const utterance = new SpeechSynthesisUtterance(text);
+      const voices = window.speechSynthesis.getVoices();
+      
+      const targetVoice = voices.find(voice => voice.lang === lang);
+      
+      if (targetVoice) {
+        utterance.voice = targetVoice;
+      }
+      
+      utterance.lang = lang;
+      utterance.rate = isSlowMode ? rate * 0.6 : rate;
+      utterance.pitch = pitch;
 
-    window.speechSynthesis.speak(utterance);
-    
-    setIsSlowMode(!isSlowMode);
+      window.speechSynthesis.speak(utterance);
+      
+      setIsSlowMode(!isSlowMode);
+    };
+
+    if (window.speechSynthesis.getVoices().length === 0) {
+      window.speechSynthesis.addEventListener('voiceschanged', speakWithVoice, { once: true });
+    } else {
+      speakWithVoice();
+    }
   };
 
   return (
