@@ -1,6 +1,6 @@
 {
   "name": "remark-say-tts",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A remark plugin that adds text-to-speech functionality to ReactMarkdown using the Web Speech API",
   "main": "src/index.js",
   "type": "module",
